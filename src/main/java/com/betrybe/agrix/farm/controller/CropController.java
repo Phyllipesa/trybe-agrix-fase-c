@@ -3,7 +3,6 @@ package com.betrybe.agrix.farm.controller;
 import com.betrybe.agrix.farm.controller.dto.CropDto;
 import com.betrybe.agrix.farm.controller.dto.FertilizerDto;
 import com.betrybe.agrix.farm.model.entity.Crop;
-import com.betrybe.agrix.farm.model.entity.Farm;
 import com.betrybe.agrix.farm.model.entity.Fertilizer;
 import com.betrybe.agrix.farm.service.CropService;
 import java.time.LocalDate;
