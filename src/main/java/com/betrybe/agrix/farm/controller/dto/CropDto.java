@@ -9,8 +9,8 @@ import java.time.LocalDate;
  * @param id da Crop.
  * @param name nome do alimento que foi plantado.
  * @param plantedArea area plantada.
- * @param plantedData data do plantio.
- * @param harvestData data da colheita.
+ * @param plantedDate data do plantio.
+ * @param harvestDate data da colheita.
  * @param farmId id da farm.
 
  */
