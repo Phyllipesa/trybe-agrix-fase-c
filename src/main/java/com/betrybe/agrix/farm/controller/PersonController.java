@@ -39,6 +39,7 @@ public class PersonController {
    * @param newPersonDto informações da pessoa.
    * @return HTTP status.CREATED 201 e um PersonDto.
    */
+
   @PostMapping()
   public ResponseEntity<PersonDto> registerPerson(@RequestBody PersonCreationDto newPersonDto) {
     Person redistrictedPerson = personService
