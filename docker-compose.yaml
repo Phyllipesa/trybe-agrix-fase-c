@@ -1,0 +1,29 @@
+services:
+
+  #  api:
+  #    container_name: api
+  #    build: .
+  #    restart: always
+  #    ports:
+  #  #hostoPort:ContainerPort
+  #      - 8080:8080
+  #    working_dir: /app
+  #    links:
+  #      - database
+  #    environment:
+  #      - DATABASE_HOST=database
+  #      - DATABASE_PORT=3306
+  #      - DATABASE_USER=root
+  #      - DATABASE_PASSWORD=root
+  #    depends_on:
+  #      - database
+
+  database:
+    image: mysql:8.0.32
+    container_name: agrixdb
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: agrixdb
