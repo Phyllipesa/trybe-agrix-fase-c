@@ -16,8 +16,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class AgrixApplication {
 
   public static void main(String[] args) {
-    String activeProfile = "dev";
-    System.setProperty("spring.profile.active", activeProfile);
     SpringApplication.run(AgrixApplication.class, args);
   }
 
