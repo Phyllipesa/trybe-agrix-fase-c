@@ -67,7 +67,7 @@ public class CropController {
    * getCropByDate.
    *
    * @param start = data em que a plantação começou.
-//   * @param end = data em que a plantação terminou.
+   * @param end = data em que a plantação terminou.
    * @return HTTP status.OK 200 e cropDto.
    */
   @GetMapping("/search")
