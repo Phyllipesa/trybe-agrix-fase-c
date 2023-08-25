@@ -1,7 +1,7 @@
-package com.betrybe.agrix.ebytr.staff.entity;
+package com.betrybe.agrix.farm.model.entity;
 
 
-import com.betrybe.agrix.ebytr.staff.security.Role;
+import com.betrybe.agrix.farm.util.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
