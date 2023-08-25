@@ -41,6 +41,16 @@ public class ControllerAdvice {
   }
 
   /**
+   * PersonNotFoundException - Tratamento de erro caso person não encontrada.
+   */
+  @ExceptionHandler(PersonNotFoundException.class)
+  public ResponseEntity<String> handlerPersonNotFound(PersonNotFoundException error) {
+    return ResponseEntity
+        .status(HttpStatus.NOT_FOUND)
+        .body(error.getMessage());
+  }
+
+  /**
    * Exception - Tratamento de erro interno do servidor.
    */
   @ExceptionHandler(Exception.class)
