@@ -2,6 +2,7 @@ package com.betrybe.agrix.farm.controller.dto;
 
 import com.betrybe.agrix.farm.model.entity.Person;
 import com.betrybe.agrix.farm.util.Role;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * PersonCreationDto - padroniza as informações do body.
@@ -21,9 +22,10 @@ public record PersonCreationDto(String username, String password, Role role) {
   public static Person personCreationDtoToEntiti(PersonCreationDto personCreationDto) {
     Person newPerson = new Person();
 
-    newPerson.setUsername(personCreationDto.username);
-    newPerson.setPassword(personCreationDto.password);
-    newPerson.setRole(personCreationDto.role);
+    newPerson.setUsername(personCreationDto.username());
+    newPerson.setPassword(personCreationDto.password());
+    newPerson.setRole(personCreationDto.role());
+
     return newPerson;
   }
 }
