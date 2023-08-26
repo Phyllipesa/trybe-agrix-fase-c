@@ -2,6 +2,7 @@ package com.betrybe.agrix.farm.util;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,26 +21,32 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
 
   /**
-   * securityFilterChain - filtros para authenticates
+   * securityFilterChain - filtros para authenticates.
    *
    * @param httpSecurity para definir a cadeia de filtros.
    * @return uma instância de SecurityFilterChain.
-   * @throws Exception
+   * @throws Exception exception.
    */
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
     return httpSecurity
         .csrf(AbstractHttpConfigurer::disable)
-        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .sessionManagement(session -> session
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(authorize -> authorize
+            .requestMatchers(HttpMethod.POST, "/persons").permitAll()
+            .requestMatchers(HttpMethod.POST, "auth/login").permitAll()
+            .anyRequest().authenticated()
+        )
         .build();
   }
 
   /**
-   * authenticationManager
+   * authenticationManager.
    *
    * @param authenticationConfiguration authenticationConfiguration.
    * @return uma instancia de AuthenticationManager para o controlador AuthenticationController.
-   * @throws Exception
+   * @throws Exception exception.
    */
   @Bean
   public AuthenticationManager authenticationManager(
@@ -48,12 +55,12 @@ public class SecurityConfiguration {
   }
 
   /**
-   * passwordEncoder
-   *
-   * @return O PasswordEncoder irá retornar uma instância do encoder
-   * utilizado para gerar o hash da senha que está no JSON e comparar
-   * o resultado com o valor armazenado no banco de dados.
-   */
+  * passwordEncoder.
+  *
+  * @return O PasswordEncoder irá retornar uma instância do encoder
+  *     utilizado para gerar o hash da senha que está no JSON e comparar
+  *     o resultado com o valor armazenado no banco de dados.
+  */
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
