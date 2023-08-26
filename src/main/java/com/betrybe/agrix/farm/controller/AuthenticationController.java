@@ -1,6 +1,8 @@
 package com.betrybe.agrix.farm.controller;
 
 import com.betrybe.agrix.farm.controller.dto.AuthenticationDto;
+import com.betrybe.agrix.farm.controller.dto.TokenDto;
+import com.betrybe.agrix.farm.exception.Forbidden;
 import com.betrybe.agrix.farm.model.entity.Person;
 import com.betrybe.agrix.farm.service.PersonService;
 import com.betrybe.agrix.farm.service.TokenService;
@@ -38,7 +40,11 @@ public class AuthenticationController {
    */
 
   @Autowired
-  public AuthenticationController(AuthenticationManager authenticationManager, PersonService personService, TokenService tokenService) {
+  public AuthenticationController(
+      AuthenticationManager authenticationManager,
+      PersonService personService,
+      TokenService tokenService
+  ) {
     this.authenticationManager = authenticationManager;
     this.personService = personService;
     this.tokenService = tokenService;
@@ -50,8 +56,11 @@ public class AuthenticationController {
    * @param authenticationDto padroniza as informações vindas do body.
    * @return um token.
    */
-  @PostMapping
-  public ResponseEntity<String> login(@RequestBody AuthenticationDto authenticationDto) {
+  @PostMapping("/login")
+  public ResponseEntity<TokenDto> login(
+      @RequestBody AuthenticationDto authenticationDto
+  ) throws Forbidden {
+
     UsernamePasswordAuthenticationToken usernamePassword =
         new UsernamePasswordAuthenticationToken(
             authenticationDto.username(),
@@ -62,7 +71,6 @@ public class AuthenticationController {
     Person person = (Person) auth.getPrincipal();
     String token = tokenService.generateToken(person);
 
-    return ResponseEntity.status(HttpStatus.OK).body(token);
-
+    return ResponseEntity.status(HttpStatus.OK).body(TokenDto.tokenToResponse(token));
   }
 }
