@@ -3,9 +3,9 @@ package com.betrybe.agrix.farm.exception;
 /**
  * Exception for when a person is not found.
  */
-public class PersonNotFoundException extends RuntimeException {
+public class PersonNotFound extends RuntimeException {
 
-  public PersonNotFoundException() {
+  public PersonNotFound() {
     super("Pessoa não encontrada!");
   }
 
