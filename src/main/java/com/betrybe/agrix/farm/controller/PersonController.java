@@ -7,6 +7,7 @@ import com.betrybe.agrix.farm.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,16 +37,25 @@ public class PersonController {
   /**
    * registerPerson = Registra uma pessoa no DB.
    *
-   * @param newPersonDto informações da pessoa.
-   * @return HTTP status.CREATED 201 e um PersonDto.
+   * @param personCreationDto informações da pessoa.
+   * @return HTTP status.CREATED 201 e um redistrictedPersonDto.
    */
 
   @PostMapping()
-  public ResponseEntity<PersonDto> registerPerson(@RequestBody PersonCreationDto newPersonDto) {
-    Person redistrictedPerson = personService
-        .create(PersonCreationDto.personCreationDtoToEntiti(newPersonDto));
+  public ResponseEntity<PersonDto> registerPerson(
+      @RequestBody PersonCreationDto personCreationDto
+  ) {
 
-    PersonDto redistrictedPersonDto = PersonDto.personEntityToDto(redistrictedPerson);
+    UserDetails userDetails = personService.loadUserByUsername(personCreationDto.username());
+
+    if (userDetails != null) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    }
+
+    Person person = PersonCreationDto.personCreationDtoToEntiti(personCreationDto);
+    Person newPerson = personService.create(person);
+    PersonDto redistrictedPersonDto = PersonDto.personEntityToDto(newPerson);
+
     return ResponseEntity.status(HttpStatus.CREATED).body(redistrictedPersonDto);
   }
 }
