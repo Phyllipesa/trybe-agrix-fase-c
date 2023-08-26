@@ -2,7 +2,11 @@ package com.betrybe.agrix.farm.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * ControllerAdvice - Faz o gerenciamento de erros da aplicação.
@@ -43,11 +47,20 @@ public class ControllerAdvice {
   /**
    * PersonNotFoundException - Tratamento de erro caso person não encontrada.
    */
-  @ExceptionHandler(PersonNotFoundException.class)
-  public ResponseEntity<String> handlerPersonNotFound(PersonNotFoundException error) {
+  @ExceptionHandler(PersonNotFound.class)
+  public ResponseEntity<String> handlerPersonNotFound(PersonNotFound error) {
     return ResponseEntity
         .status(HttpStatus.NOT_FOUND)
         .body(error.getMessage());
+  }
+
+  /**
+   * Forbidden - Tratamento de erro caso credenciais invalidas.
+   */
+  @ExceptionHandler({InternalAuthenticationServiceException.class, BadCredentialsException.class})
+  @ResponseStatus(HttpStatus.FORBIDDEN)
+  public ResponseEntity<String> handlerForbidden(Exception e) {
+    return new ResponseEntity<>("username or password is incorrect", HttpStatus.FORBIDDEN);
   }
 
   /**
