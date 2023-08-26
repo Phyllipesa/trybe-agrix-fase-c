@@ -3,23 +3,21 @@ package com.betrybe.agrix.farm.service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.betrybe.agrix.farm.model.entity.Person;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 /**
- * TokenService
+ * TokenService.
  */
 
 @Service
 public class TokenService {
   
-  @Value("${api.security.token.secret}")
+  @Value("api.security.token.secret")
   private String secret;
-
 
   /**
    * generateToken - Gerador de token.
