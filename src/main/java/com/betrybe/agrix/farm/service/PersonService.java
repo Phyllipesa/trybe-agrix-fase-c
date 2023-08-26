@@ -1,6 +1,6 @@
 package com.betrybe.agrix.farm.service;
 
-import com.betrybe.agrix.farm.exception.PersonNotFoundException;
+import com.betrybe.agrix.farm.exception.PersonNotFound;
 import com.betrybe.agrix.farm.model.entity.Person;
 import com.betrybe.agrix.farm.model.repository.PersonRepository;
 import java.util.Optional;
@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -31,29 +32,19 @@ public class PersonService implements UserDetailsService {
     Optional<Person> person = personRepository.findById(id);
 
     if (person.isEmpty()) {
-      throw new PersonNotFoundException();
+      throw new PersonNotFound();
     }
 
     return person.get();
   }
 
   /**
-   * Returns a person for a given username.
-   */
-  //    public UserDetails getPersonByUsername(String username) {
-  //      Optional<UserDetails> person = personRepository.findByUsername(username);
-  //
-  //      if (person.isEmpty()) {
-  //        throw new PersonNotFoundException();
-  //      }
-  //
-  //      return person.get();
-  //    }
-
-  /**
    * Creates a new person.
    */
   public Person create(Person person) {
+    String hashedPassword = new BCryptPasswordEncoder().encode(person.getPassword());
+    person.setPassword(hashedPassword);
+
     return personRepository.save(person);
   }
 
