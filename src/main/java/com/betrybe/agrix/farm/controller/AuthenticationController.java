@@ -2,7 +2,6 @@ package com.betrybe.agrix.farm.controller;
 
 import com.betrybe.agrix.farm.controller.dto.AuthenticationDto;
 import com.betrybe.agrix.farm.controller.dto.TokenDto;
-import com.betrybe.agrix.farm.exception.Forbidden;
 import com.betrybe.agrix.farm.model.entity.Person;
 import com.betrybe.agrix.farm.service.PersonService;
 import com.betrybe.agrix.farm.service.TokenService;
@@ -59,7 +58,7 @@ public class AuthenticationController {
   @PostMapping("/login")
   public ResponseEntity<TokenDto> login(
       @RequestBody AuthenticationDto authenticationDto
-  ) throws Forbidden {
+  ) {
 
     UsernamePasswordAuthenticationToken usernamePassword =
         new UsernamePasswordAuthenticationToken(
