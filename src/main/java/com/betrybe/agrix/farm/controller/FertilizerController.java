@@ -1,15 +1,13 @@
 package com.betrybe.agrix.farm.controller;
 
 import com.betrybe.agrix.farm.controller.dto.FertilizerDto;
-import com.betrybe.agrix.farm.exception.FarmNotFound;
-import com.betrybe.agrix.farm.model.entity.Crop;
-import com.betrybe.agrix.farm.model.entity.Farm;
 import com.betrybe.agrix.farm.model.entity.Fertilizer;
 import com.betrybe.agrix.farm.service.FertilizerService;
 import java.util.List;
-import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +30,7 @@ public class FertilizerController {
    *
    * @param fertilizerService service.
    */
-
+  @Autowired
   public FertilizerController(FertilizerService fertilizerService) {
     this.fertilizerService = fertilizerService;
   }
@@ -55,6 +53,7 @@ public class FertilizerController {
    * @return HTTP status.OK 200 e a lista de fertilizerDto.
    */
   @GetMapping()
+  @Secured("ADMIN")
   public ResponseEntity<List<FertilizerDto>> getAllFertilizers() {
     List<Fertilizer> allFertilizers = fertilizerService.getAllFertilizers();
     List<FertilizerDto> fertilizerDtoList = allFertilizers.stream()
@@ -71,6 +70,7 @@ public class FertilizerController {
    * @return HTTP status.OK 200 e fertilizerDto.
    */
   @GetMapping("/{fertilizerId}")
+  @Secured("ADMIN")
   public ResponseEntity<FertilizerDto> getFertilizerById(@PathVariable Long fertilizerId) {
     Fertilizer fertilizer = fertilizerService.getFertilizerById(fertilizerId);
     FertilizerDto fertilizerDto = FertilizerDto.fertilizerEntityToDto(fertilizer);
