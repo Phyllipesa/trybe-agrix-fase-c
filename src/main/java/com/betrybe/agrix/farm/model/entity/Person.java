@@ -1,13 +1,15 @@
 package com.betrybe.agrix.farm.model.entity;
 
-
 import com.betrybe.agrix.farm.util.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +18,8 @@ import org.springframework.security.core.userdetails.UserDetails;
  * Class representing a person.
  */
 @Entity
-public class Person implements UserDetails {
+@Table(name = "people")
+public class Person implements UserDetails, GrantedAuthority {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +33,21 @@ public class Person implements UserDetails {
   private Role role;
 
   public Person() {
+  }
+
+  /**
+   * Person constructor.
+   *
+   * @param id id.
+   * @param username username.
+   * @param password password.
+   * @param role role.
+   */
+  public Person(Long id, String username, String password, Role role) {
+    this.id = id;
+    this.username = username;
+    this.password = password;
+    this.role = role;
   }
 
   public Long getId() {
@@ -70,10 +88,10 @@ public class Person implements UserDetails {
         && Objects.equals(role, person.role);
   }
 
-
   @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    return null;
+  @JsonIgnore
+  public Collection<Person> getAuthorities() {
+    return List.of(this);
   }
 
   @Override
@@ -104,6 +122,12 @@ public class Person implements UserDetails {
   @Override
   public boolean isEnabled() {
     return true;
+  }
+
+  @Override
+  @JsonIgnore
+  public String getAuthority() {
+    return this.getRole().getName();
   }
 }
 
