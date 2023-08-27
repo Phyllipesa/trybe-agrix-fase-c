@@ -35,6 +35,23 @@ public class TokenService {
   }
 
   /**
+  * validateToken - Validação de token.
+  *
+  * @param token token.
+  * @return Se o token for valido retorna
+  *     um subject que esta armazenado no token, caso invalido,
+  *     retorna string vazia.
+  */
+  public String validateToken(String token) {
+    Algorithm algorithm = Algorithm.HMAC256(secret);
+    return JWT.require(algorithm)
+        .withIssuer("agrix")
+        .build()
+        .verify(token)
+        .getSubject();
+  }
+
+  /**
    * generateExpirationDate - Gera um tempo de vida para o token.
    *
    * @return retorna a hora atual com o acrecimo de 2h.
