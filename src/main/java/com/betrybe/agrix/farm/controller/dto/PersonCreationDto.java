@@ -2,7 +2,6 @@ package com.betrybe.agrix.farm.controller.dto;
 
 import com.betrybe.agrix.farm.model.entity.Person;
 import com.betrybe.agrix.farm.util.Role;
-import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * PersonCreationDto - padroniza as informações do body.
