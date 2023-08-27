@@ -7,8 +7,10 @@ import com.betrybe.agrix.farm.model.entity.Fertilizer;
 import com.betrybe.agrix.farm.service.CropService;
 import java.time.LocalDate;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +33,7 @@ public class CropController {
    *
    * @param cropService service.
    */
+  @Autowired
   public CropController(CropService cropService) {
     this.cropService = cropService;
   }
@@ -41,6 +44,7 @@ public class CropController {
    * @return HTTP status 200 e a lista de cropDto.
    */
   @GetMapping()
+  @Secured({"ADMIN", "MANAGER"})
   public ResponseEntity<List<CropDto>> getAllCrops() {
     List<Crop> allCrops = cropService.getAllCrops();
     List<CropDto> cropsDtoList = allCrops.stream()
@@ -57,6 +61,7 @@ public class CropController {
    * @return HTTP status.OK 200 e cropDto.
    */
   @GetMapping("/{id}")
+  @Secured({"ADMIN", "MANAGER"})
   public ResponseEntity<CropDto> getCropById(@PathVariable Long id) {
     Crop crop = cropService.getCropById(id);
     CropDto cropDto = CropDto.cropEntityToDto(crop);
@@ -98,7 +103,7 @@ public class CropController {
   ) {
     cropService.cropAndFertilizerAssociation(cropId, fertilizerId);
     return ResponseEntity.status(HttpStatus.CREATED)
-            .body(String.format("Fertilizante e plantação associados com sucesso!"));
+            .body("Fertilizante e plantação associados com sucesso!");
   }
 
   /**
