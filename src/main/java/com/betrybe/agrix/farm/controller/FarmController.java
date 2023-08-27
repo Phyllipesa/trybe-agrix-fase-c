@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Farm Controller.
  */
-
 @RestController
 @RequestMapping("/farms")
 public class FarmController {
@@ -54,6 +54,7 @@ public class FarmController {
    * @return HTTP status.OK 200 e a lista de farmsDto.
    */
   @GetMapping()
+  @Secured({"ADMIN", "MANAGER", "USER"})
   public ResponseEntity<List<FarmDto>> getAllFarms() {
     List<Farm> allFarms = farmService.getAllFarms();
     List<FarmDto> farmsDtoList = allFarms.stream()
@@ -70,6 +71,7 @@ public class FarmController {
    * @return HTTP status.OK 200 e farmDto.
    */
   @GetMapping("/{id}")
+  @Secured({"ADMIN", "MANAGER", "USER"})
   public ResponseEntity<FarmDto> getFarmById(@PathVariable Long id) {
     Farm farm = farmService.getFarmById(id);
     FarmDto farmDto = FarmDto.farmEntityToDto(farm);
