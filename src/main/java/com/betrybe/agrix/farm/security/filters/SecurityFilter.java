@@ -1,4 +1,4 @@
-package com.betrybe.agrix.farm.util;
+package com.betrybe.agrix.farm.security.filters;
 
 import com.betrybe.agrix.farm.service.PersonService;
 import com.betrybe.agrix.farm.service.TokenService;

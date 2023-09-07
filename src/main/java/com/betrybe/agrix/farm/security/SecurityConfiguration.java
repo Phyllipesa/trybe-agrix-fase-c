@@ -1,6 +1,8 @@
-package com.betrybe.agrix.farm.util;
+package com.betrybe.agrix.farm.security;
 
 import java.nio.file.AccessDeniedException;
+
+import com.betrybe.agrix.farm.security.filters.SecurityFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
